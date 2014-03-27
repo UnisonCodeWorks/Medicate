@@ -15,14 +15,41 @@
 
   <div class="container">
 
-    <form class="form-signin" role="form">
-      <h2 class="form-signin-heading">Please Login</h2>
-      <input type="email" class="form-control" placeholder="Email address" required autofocus>
-      <input type="password" class="form-control" placeholder="Password" required>
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <form style="width: 50%;margin: 0 auto;" method="post" action="{{ url_for('register') }}">
+      <h2>New Registration</h2></br>
+      <p class="lead">Full Name:</p> <textarea name="name" maxlength="100" rows="1" type="text" class="form-control"></textarea>
+      </br></br>
+      <p class="lead">Email Address:</p> <textarea name="email" maxlength="100" rows="1" type="text" class="form-control"></textarea>
+      </br></br>
+      <p class="lead">Desired Password:</p> <textarea name="password" maxlength="100" rows="1" type="password" class="form-control"></textarea>
+      </br></br>
+      <p class="lead">Date of Birth:</p>  <textarea name="dob" maxlength="8" rows="1" type="text" class="form-control" placeholder="dd/mm/yy"></textarea>
+      </br></br>
+      <p class="lead">Address:</p> <textarea name="address" maxlength="5000" rows="10" type="text" class="form-control"></textarea>
+      </br></br>
+      <p class="lead">Contact No:</p> <textarea name="contact" maxlength="10" rows="1" type="text" class="form-control"></textarea>
+      </br></br>
+      <p class="lead">Blood group:</p>
+      <div class="radio">
+      <label>
+       <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+       <p>Don't know</p>
+       </label>
+      </div>
+      <div class="radio">
+      <label>
+       <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+       <p>O+</p>
+       </label>
+      </div>
+      <div class="radio">
+      <label>
+       <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+       <p>O-</p>
+       </label>
+      </div>
+      </br></br>
+      <button class="btn btn-primary " type="submit">Register</button>
     </form>
 
   </div> <!-- /container -->
