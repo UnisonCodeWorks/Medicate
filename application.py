@@ -16,7 +16,23 @@ c = conn.cursor()
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html")
+	email = request.cookies.get("email")
+	value = request.cookies.get("value")
+	if email==None or value==None:
+		resp = make_response(render_template("index.html"))
+		resp.set_cookie('email', '', expires=0)
+		resp.set_cookie('value', '', expires=0)
+		return resp
+	else:
+		if value=="patient":
+			return render_template("pDashboard.html")
+		elif value=="doctor":
+			return render_template("dDashboard.html")
+		else:
+			resp = make_response(render_template("index.html"))
+			resp.set_cookie('email', '', expires=0)
+			resp.set_cookie('value', '', expires=0)
+			return resp
 
 @app.route('/about')
 def about():
@@ -30,6 +46,13 @@ def trend():
 def login():
     return render_template("login.html", errorVar="")
 
+@app.route('/logout')
+def logout():
+    resp = make_response(render_template("index.html"))
+    resp.set_cookie('email', '', expires=0)
+    resp.set_cookie('value', '', expires=0)
+    return resp
+
 @app.route('/loggedin', methods=['POST'])
 def loggedin():
 	email = request.form["email"]
@@ -42,7 +65,10 @@ def loggedin():
 		for row in result:
 			if row[0] == 1:
 				conn.close()
-				return render_template("pDashboard.html")
+				resp = make_response(render_template("pDashboard.html"))
+				resp.set_cookie("email", email, 1800)
+				resp.set_cookie("value", value, 1800)
+				return resp
 			else:
 				conn.close()
 				return render_template("login.html", errorVar="""Record not found. Try again.""")
@@ -51,7 +77,10 @@ def loggedin():
 		for row in result:
 			if row[0] == 1:
 				conn.close()
-				return render_template("dDashboard.html")
+				resp = make_response(render_template("dDashboard.html"))
+				resp.set_cookie("email", email, 1800)
+				resp.set_cookie("value", value, 1800)
+				return resp
 			else:
 				conn.close()
 				return render_template("login.html", errorVar="""Record not found. Try again.""")
@@ -86,7 +115,10 @@ def register():
 			c.execute('INSERT INTO person VALUES (?,?,?,?,?,?,?)', (name, email, password, dob, address, contact, blood))
 			conn.commit()
 			conn.close()
-			return render_template("pDashboard.html")
+			resp = make_response(render_template("pDashboard.html"))
+			resp.set_cookie("email", email, 1800)
+			resp.set_cookie("value", "patient", 1800)
+			return resp
 
 @app.route('/docRegister', methods=['POST'])
 def docRegister():
@@ -107,7 +139,33 @@ def docRegister():
 			c.execute('INSERT INTO doctor VALUES (?,?,?,?,?)', (name, email, password, specialisation, contact))
 			conn.commit()
 			conn.close()
-			return render_template("dDashboard.html")
+			resp = make_response(render_template("dDashboard.html"))
+			resp.set_cookie("email", email, 1800)
+			resp.set_cookie("value", "doctor", 1800)
+			return resp
+
+
+@app.route('/newEntry')
+def newEntry():
+	email = request.cookies.get("email")
+	value = request.cookies.get("value")
+	if email==None or value==None:
+		resp = make_response(render_template("login.html"))
+		resp.set_cookie('email', '', expires=0)
+		resp.set_cookie('value', '', expires=0)
+		return resp
+	else:
+		if value=="patient":
+			return render_template("pNewEntry.html")
+		elif value=="doctor":
+			return render_template("dNewEntry.html")
+		else:
+			resp = make_response(render_template("login.html"))
+			resp.set_cookie('email', '', expires=0)
+			resp.set_cookie('value', '', expires=0)
+			return resp
+
+
 
 if __name__ == '__main__':
     app.run(threaded=True)
