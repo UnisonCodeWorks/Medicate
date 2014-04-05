@@ -19,28 +19,22 @@ c = conn.cursor()
 c.execute('''CREATE TABLE if not exists doctor(name text, email text, password text, specialization text, contact_no int, PRIMARY KEY (email))''')
 
 
-c.execute('''CREATE TABLE if not exists clinic(place text, contact_no int, address text, name text, unique_id int, primary key(unique_id))''')
+#c.execute('''CREATE TABLE if not exists clinic(place text, contact_no int, address text, name text, unique_id int, primary key(unique_id))''')
 
 
-c.execute('''CREATE TABLE if not exists doctor_timings(doc_email text, clinic_unique_id int, from_time time, upto time, days int, primary key(clinic_unique_id), foreign key(clinic_unique_id) references clinic(unique_id), foreign key (doc_email) references doctor(doc_email))''')
+#c.execute('''CREATE TABLE if not exists doctor_timings(doc_email text, clinic_unique_id int, from_time time, upto time, days int, primary key(clinic_unique_id), foreign key(clinic_unique_id) references clinic(unique_id), foreign key (doc_email) references doctor(doc_email))''')
 
 
-c.execute('''CREATE TABLE if not exists person(name text, email text, password text, DOB text, address text, contact_no int, blood_group text, primary key (email))''')
+c.execute('''CREATE TABLE if not exists patient(name text, email text, password text, DOB date, address text, contact_no int, blood_group text, PRIMARY KEY(email))''')
 
 
-c.execute('''CREATE TABLE if not exists disease(disease_name text, disease_id int, primary key(disease_id))''')
+c.execute('''CREATE TABLE if not exists patientRecord(id int, email text, doc_email text, disease text, start date, end date,  PRIMARY KEY(id), FOREIGN KEY(email) REFERENCES patient(email), FOREIGN KEY(doc_email) REFERENCES doctor(email))''')
 
 
-c.execute('''CREATE TABLE if not exists disease_symptoms(disease_id int, symptom text, primary key( disease_id), foreign key (disease_id) references disease(disease_id))''')
+c.execute('''CREATE TABLE if not exists patientSymptom(id int, symptom text, FOREIGN KEY(id) REFERENCES patientRecord(id))''')
 
 
-c.execute('''CREATE TABLE if not exists patient_record(patient_id int, doc_email int, disease_id int, from_date date, to_date date, patient_record_id int, primary key(patient_record_id), foreign key (patient_id) references person(email), foreign key(doc_email) references doctor(doc_email), foreign key(disease_id) references disease)''')
-
-
-c.execute('''CREATE TABLE if not exists symptoms_discovered(patient_record_id int, symptom text, foreign key(patient_record_id) references patient_record)''')
-
-
-c.execute('''CREATE TABLE if not exists drugs_used(patient_record_id int, drug_name text, foreign key(patient_record_id) references patient_record)''')
+c.execute('''CREATE TABLE if not exists patientDrugs(id int, drugs text, FOREIGN KEY(id) REFERENCES patientRecord(id))''')
 
 # Save (commit) the changes
 conn.commit()

@@ -42,6 +42,27 @@
   
   </div>
 
+  <div class="container">
+
+    <form style="width: 50%;margin: 0 auto;" role="form" method="post" action="{{ url_for('submitEntry') }}">
+      </br></br>
+      <p class="lead">Doctor's Email:</p><input  name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+      </br></br>
+      <p class="lead">Start Date</p>  <input name="startDate" type="date" class="form-control" placeholder="YYYY-MM-DD">
+      </br></br>
+      <p class="lead">End Date</p>  <input name="endDate" type="date" class="form-control" placeholder="YYYY-MM-DD">
+      </br></br>
+      <p class="lead">Disease:</p> <input name="disease" type="text" placeholder="Name of the disease" class="form-control">
+      </br></br>
+      <p class="lead">Symptoms:</p> <input name="symptoms" type="text" placeholder="enter all symptoms separated by a ',' " class="form-control">
+      </br></br>
+      <p class="lead">Drugs:</p> <input name="drugs" type="text" placeholder="Enter all drugs separated by a ',' " class="form-control">
+      </br></br>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+  </div> <!-- /container -->
+
   <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 

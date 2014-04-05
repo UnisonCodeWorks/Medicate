@@ -11,6 +11,9 @@ app.debug = True
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
 
+#Global Variables
+recordID = 0
+
 #Creating tables
 
 @app.route('/')
@@ -61,7 +64,7 @@ def loggedin():
 	conn = sqlite3.connect('Databa.db')
 	c = conn.cursor()
 	if value=="patient":
-		result = c.execute('select count(*) from person where email = ? and password = ?', (email, password,))
+		result = c.execute('select count(*) from patient where email = ? and password = ?', (email, password,))
 		for row in result:
 			if row[0] == 1:
 				conn.close()
@@ -106,13 +109,13 @@ def register():
 	
 	conn = sqlite3.connect('Databa.db')
 	c = conn.cursor()
-	result = c.execute('select count(*) from person where email = ? ', (email,))
+	result = c.execute('select count(*) from patient where email = ? ', (email,))
 	for row in result:
 		if row[0]==1:
 			conn.close()
 			return render_template("registration.html", errorVar="Email address already in use.")
 		else:
-			c.execute('INSERT INTO person VALUES (?,?,?,?,?,?,?)', (name, email, password, dob, address, contact, blood))
+			c.execute('INSERT INTO patient VALUES (?,?,?,?,?,?,?)', (name, email, password, dob, address, contact, blood))
 			conn.commit()
 			conn.close()
 			resp = make_response(render_template("pDashboard.html"))
@@ -165,6 +168,59 @@ def newEntry():
 			resp.set_cookie('value', '', expires=0)
 			return resp
 
+@app.route('/submitEntry', methods=['POST'])
+def submitEntry():
+	global recordID
+	email = request.cookies.get("email")
+	value = request.cookies.get("value")
+	if email==None or value==None:
+		resp = make_response(render_template("login.html"))
+		resp.set_cookie('email', '', expires=0)
+		resp.set_cookie('value', '', expires=0)
+		return resp
+	else:
+		if value=="patient":
+			doc_email = request.form["email"]
+			startDate = request.form["startDate"]
+			endDate = request.form["endDate"]
+			disease = request.form["disease"]
+			drugs = request.form["drugs"]
+			symptoms = request.form["symptoms"]
+			conn = sqlite3.connect('Databa.db')
+			c = conn.cursor()
+			c.execute('INSERT INTO patientRecord VALUES (?,?,?,?,?,?)', (recordID, email, doc_email, disease, startDate, endDate))
+			for it in symptoms.split(','):
+				c.execute('INSERT INTO patientSymptom VALUES (?,?)', (recordID, it))
+			for it in drugs.split(','):
+				c.execute('INSERT INTO patientDrugs VALUES (?,?)', (recordID, it))
+			conn.commit()
+			conn.close()
+			recordID += 1
+			return render_template("pDashboard.html")
+		elif value=="doctor":
+			doc_email = email
+			email = request.form["email"]
+			startDate = request.form["startDate"]
+			endDate = request.form["endDate"]
+			disease = request.form["disease"]
+			drugs = request.form["drugs"]
+			symptoms = request.form["symptoms"]
+			conn = sqlite3.connect('Databa.db')
+			c = conn.cursor()
+			c.execute('INSERT INTO patientRecord VALUES (?,?,?,?,?,?)', (recordID, email, doc_email, disease, startDate, endDate))
+			for it in symptoms.split(','):
+				c.execute('INSERT INTO patientSymptom VALUES (?,?)', (recordID, it))
+			for it in drugs.split(','):
+				c.execute('INSERT INTO patientDrugs VALUES (?,?)', (recordID, it))
+			conn.commit()
+			conn.close()
+			recordID += 1
+			return render_template("dDashboard.html")
+		else:
+			resp = make_response(render_template("login.html"))
+			resp.set_cookie('email', '', expires=0)
+			resp.set_cookie('value', '', expires=0)
+			return resp
 
 
 if __name__ == '__main__':
