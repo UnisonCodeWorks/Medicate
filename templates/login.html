@@ -15,10 +15,23 @@
 
   <div class="container">
 
-    <form class="form-signin" role="form">
+    <form class="form-signin" role="form" action="{{ url_for('loggedin') }}" method="post">
       <h2 class="form-signin-heading">Please Login</h2>
-      <input type="email" class="form-control" placeholder="Email address" required autofocus>
-      <input type="password" class="form-control" placeholder="Password" required>
+      </br><p>{% print errorVar %}</p>
+      <input  name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+      </br>
+      <input name="password" type="password" class="form-control" placeholder="Password" required>
+      <div class="radio">
+      <label>
+       <input type="radio" name="optionsRadios" value="patient" checked>
+       <p>Patient</p>
+       </label>
+       <label>
+       </label>
+       <input type="radio" name="optionsRadios" value="doctor">
+       <p>Doctor</p>
+       </label>
+      </div>
       <label class="checkbox">
         <input type="checkbox" value="remember-me"> Remember me
       </label>

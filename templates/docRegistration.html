@@ -15,35 +15,17 @@
 
   <div class="container">
 
-    <form style="width: 50%;margin: 0 auto;" role="form" method="post" action="{{ url_for('register') }}">
-      <h2>Patient Registration</h2></br><p>To register as a doctor, click <a href="{{ url_for('docRegistration') }}">here</a>.</p><p></br><p>{% print errorVar %}</p></br>
+    <form style="width: 50%;margin: 0 auto;" role="form" method="post" action="{{ url_for('docRegister') }}">
+      <h2>Doctor Registration</h2></br><p>To register as a patient, click <a href="{{ url_for('registration') }}">here</a>.</p><p></br><p>{% print errorVar %}</p></br>
       <p class="lead">Full Name:</p> <textarea name="name" maxlength="100" rows="1" type="text" placeholder="Full Name" class="form-control"></textarea>
       </br></br>
       <p class="lead">Email Address:</p><input  name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
       </br></br>
       <p class="lead">Desired Password:</p> <input name="password" type="password" class="form-control" placeholder="Password" required>
       </br></br>
-      <p class="lead">Date of Birth:</p>  <textarea name="dob" maxlength="8" rows="1" type="text" class="form-control" placeholder="dd/mm/yy"></textarea>
-      </br></br>
-      <p class="lead">Address:</p> <textarea name="address" maxlength="5000" rows="10" type="text" placeholder="Full Address. We'll use this to notify you about the diseases widespread in your area." class="form-control"></textarea>
+      <p class="lead">Specialisation:</p> <input name="specialisation" type="text" class="form-control" placeholder="Specialisation">
       </br></br>
       <p class="lead">Contact No:</p> <input name="contact" maxlength="10" type="number" placeholder="10-digit mobile number" class="form-control">
-      </br></br>
-      <p class="lead">Blood group:</p>
-      <div class="radio">
-      <label>
-       <input type="radio" name="optionsRadios" value="null" checked>
-       <p>Don't know</p>
-       </label>
-      <label>
-       <input type="radio" name="optionsRadios" value="O+">
-       <p>O+</p>
-       </label>
-      <label>
-       <input type="radio" name="optionsRadios" value="O-">
-       <p>O-</p>
-       </label>
-      </div>
       </br></br>
       <button class="btn btn-primary " type="submit">Register</button>
     </form>
