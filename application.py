@@ -10,6 +10,7 @@ app.debug = True
 #Creating Database
 conn = sqlite3.connect('Database.db')
 c = conn.cursor()
+c.execute('PRAGMA foreign_keys = ON;')
 
 #Global Variables
 recordID = 0
@@ -61,8 +62,9 @@ def loggedin():
 	email = request.form["email"]
 	password = request.form["password"]
 	value = request.form["optionsRadios"]
-	conn = sqlite3.connect('Databa.db')
+	conn = sqlite3.connect('Database.db')
 	c = conn.cursor()
+	c.execute('PRAGMA foreign_keys = ON;')
 	if value=="patient":
 		result = c.execute('select count(*) from patient where email = ? and password = ?', (email, password,))
 		for row in result:
@@ -107,8 +109,9 @@ def register():
 	contact = request.form["contact"]
 	blood = request.form["optionsRadios"]
 	
-	conn = sqlite3.connect('Databa.db')
+	conn = sqlite3.connect('Database.db')
 	c = conn.cursor()
+	c.execute('PRAGMA foreign_keys = ON;')
 	result = c.execute('select count(*) from patient where email = ? ', (email,))
 	for row in result:
 		if row[0]==1:
@@ -131,8 +134,9 @@ def docRegister():
 	specialisation = request.form["specialisation"]
 	contact = request.form["contact"]
 	
-	conn = sqlite3.connect('Databa.db')
+	conn = sqlite3.connect('Database.db')
 	c = conn.cursor()
+	c.execute('PRAGMA foreign_keys = ON;')
 	result = c.execute('select count(*) from doctor where email = ? ', (email,))
 	for row in result:
 		if row[0]==1:
@@ -181,18 +185,19 @@ def submitEntry():
 	else:
 		if value=="patient":
 			doc_email = request.form["email"]
-			startDate = request.form["startDate"]
-			endDate = request.form["endDate"]
+			date = request.form["date"]
 			disease = request.form["disease"]
 			drugs = request.form["drugs"]
 			symptoms = request.form["symptoms"]
-			conn = sqlite3.connect('Databa.db')
+			conn = sqlite3.connect('Database.db')
 			c = conn.cursor()
-			c.execute('INSERT INTO patientRecord VALUES (?,?,?,?,?,?)', (recordID, email, doc_email, disease, startDate, endDate))
+			c.execute('PRAGMA foreign_keys = ON;')
+			c.execute('INSERT INTO patientRecord'+date[0:4]+' VALUES (?,?,?,?,?)', (recordID, email, doc_email, disease, date))
 			for it in symptoms.split(','):
-				c.execute('INSERT INTO patientSymptom VALUES (?,?)', (recordID, it))
+				c.execute('INSERT INTO patientSymptom'+date[0:4]+' VALUES (?,?)', (recordID, it))
+				sys.stdout.write('patientSymptom'+date[0:4]+' VALUES')
 			for it in drugs.split(','):
-				c.execute('INSERT INTO patientDrugs VALUES (?,?)', (recordID, it))
+				c.execute('INSERT INTO patientDrugs'+date[0:4]+' VALUES (?,?)', (recordID, it))
 			conn.commit()
 			conn.close()
 			recordID += 1
@@ -200,18 +205,18 @@ def submitEntry():
 		elif value=="doctor":
 			doc_email = email
 			email = request.form["email"]
-			startDate = request.form["startDate"]
-			endDate = request.form["endDate"]
+			date = request.form["date"]
 			disease = request.form["disease"]
 			drugs = request.form["drugs"]
 			symptoms = request.form["symptoms"]
-			conn = sqlite3.connect('Databa.db')
+			conn = sqlite3.connect('Database.db')
 			c = conn.cursor()
-			c.execute('INSERT INTO patientRecord VALUES (?,?,?,?,?,?)', (recordID, email, doc_email, disease, startDate, endDate))
+			c.execute('PRAGMA foreign_keys = ON;')
+			c.execute('INSERT INTO patientRecord'+date[0:4]+' VALUES (?,?,?,?,?)', (recordID, email, doc_email, disease, date))
 			for it in symptoms.split(','):
-				c.execute('INSERT INTO patientSymptom VALUES (?,?)', (recordID, it))
+				c.execute('INSERT INTO patientSymptom'+date[0:4]+' VALUES (?,?)', (recordID, it))
 			for it in drugs.split(','):
-				c.execute('INSERT INTO patientDrugs VALUES (?,?)', (recordID, it))
+				c.execute('INSERT INTO patientDrugs'+date[0:4]+' VALUES (?,?)', (recordID, it))
 			conn.commit()
 			conn.close()
 			recordID += 1
