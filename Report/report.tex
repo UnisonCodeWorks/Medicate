@@ -38,7 +38,8 @@ Database system with temporal Warehousing\\
 
 \section{Introduction and Problem Statement}
 
-A Data Warehouse is an architectual structure that supports the management of $``$Subject-oriented$"$, $``$Integrated$"$, $``$Time-variant$"$ and $``$Non-volatile$"$ data. A Temporal Database is inroduced as a database that supports $``$Valid time$"$ (i.e. the time when the fact becomes effective in reality), or $``$Transaction time$"$ (i.e. the time when the fact is stored in the database), or both times.
+A Data Warehouse is an architectual structure that supports the management of $``$Subject-oriented$"$, $``$Integrated$"$, $``$Time-variant$"$ and $``$Non-volatile$"$ data. A Temporal Database is inroduced as a database that supports $``$Valid time$"$ (i.e. the time when the fact becomes effective in reality), or $``$Transaction time$"$ (i.e. the time when the fact is stored in the database), or both times.\\\\
+The problem broadly remains to design a scalable database system which optimises the query performed on the basis of time. Time may be date, timestamp or hours and minutes.
 
 \subsection{Related Material}
 
@@ -122,7 +123,7 @@ The Explain command shows that indexing has been used\\
 0|0|0|SCAN TABLE patientRecord2012 (~100000 rows)
 \end{lstlisting}
 
-Time taken with indexing = 0.004 seconds. The time taken without indexing = 0.008 seconds\\\\
+Time taken with indexing = 0.0002 seconds. The time taken without indexing = 0.192 seconds\\\\
 So clearly we can see that the time taken has reduced by half with indexing and the scaning of rows has reduced to 10 rows from 100000 rows.\\\\{\bf Similarly, we optimised the various queries we wrote at the server side}.
 
 \newpage
@@ -153,6 +154,7 @@ Fig:\ref{PR} and Fig:\ref{DR} shows the screenshots for patient registration and
 \end{figure}
 
 \newpage
+\vspace{1in}
 We are able to query these kind of queries:
 \begin{itemize}
 \item How many people were having any particular disease at a particular time?\\\\
@@ -165,12 +167,14 @@ We are able to query these kind of queries:
 \item How the records of a doctor are changing with respect to the years?
 \item Historic trends of the diseases of a patient.
 \end{itemize}
-
+\newpage
 \section{Conclusions}
 
-We can use it as an online prescription form.It can be used to predict diseases from the given symptoms using machine learning techniques and we can also try to subscribe medicines to patients who cant buy costly medicines by looking at the constituents of the prescribed medicines.Significantly fewer errors found within personal health records.Faster care and decision making responses from assigned medical professionals.
+Right now the database is working as an online platform which stores the history of medical records of its patients. The patients can themselves add their history if it is not present in the database. Similarly it is also a platform for the doctors to look at their patients history and the ones whom they have diagnosed.\\\\
+We can also follow the trends of a disease like how much popular it is in a particular area or at a particular time. It also tells us the symptoms which is most popular for a disease and the commonly prescribed drugs for it.
+Significantly fewer errors will be found within personal health records.Faster care and decision making responses from assigned medical professionals.\\\\
+In the future it can be used as an online prescription form. It can be used to predict diseases from the given symptoms using machine learning techniques. We can also try to subscribe medicines to patients who cant buy costly medicines by looking at the constituents of the prescribed medicines.Significantly fewer errors found within personal health records.Faster care and decision making responses from assigned medical professionals.
 
-\newpage
 \begin{thebibliography}{9}
 
 
