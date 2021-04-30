@@ -4,7 +4,7 @@ Jinja2==2.7.2
 MarkupSafe==0.18
 PyRSS2Gen==1.0.0
 PyYAML==3.10
-Twisted==12.2.0
+Twisted==20.3.0
 Werkzeug==0.9.4
 altgraph==0.10.1
 bdist-mpkg==0.4.4
